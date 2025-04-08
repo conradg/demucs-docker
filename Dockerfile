@@ -1,13 +1,14 @@
-# Final stage: use a lightweight container
+# Use a lightweight container
 FROM python:3.12-slim
 
-# Install runtime dependencies only (ffmpeg)
+# Install runtime dependencies
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ffmpeg && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install -y --no-install-recommends \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy installed Python dependencies from builder
-COPY --from=builder /usr/local /usr/local
+# Install Demucs
+RUN pip install --no-cache-dir demucs
 
 # Set up working directory
 WORKDIR /app
